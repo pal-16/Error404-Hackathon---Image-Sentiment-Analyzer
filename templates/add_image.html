@@ -1,0 +1,28 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body style="background-color: lightskyblue;">
+    <div class="container" style="align-self: center; background-color:lightcoral; padding: 40px; margin: auto;">
+        <form action="/addHappyImages" method="POST">
+            <div class="form-group row">
+                <label for="image_address" class="col-sm-4 col-form-label">Image Address:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="image_address" name="link">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

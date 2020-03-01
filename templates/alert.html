@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<head>
+
+</head>
+
+
+<!-- First, include the Webcam.js JavaScript Library -->
+<script type="text/javascript" src="static/js/alert.js"></script>
+{% if flag==0: %}
+
+<script>
+    if (window.confirm('You seem to be sad today :/')) {
+        window.location.replace('happy.html')
+    }
+</script>
+
+{% else %}
+<script>
+    alert("you seem happy good");
+</script>
+{% endif %}

@@ -1,0 +1,53 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <style>
+        #heart {
+            width: 50px;
+            height: 50px;
+        }
+        
+        button {
+            margin: auto;
+        }
+        
+        .slidecontainer {
+            margin: auto;
+        }
+        
+        #slider {
+            width: 250px;
+        }
+    </style>
+</head>
+
+<body style="background-image: url('https://image.freepik.com/free-vector/spot-light-background_1284-4685.jpg') ; background-size: cover; ">
+    <div class="jumbotron" style="background-color:#0A4677 ; margin: 20px; opacity: 0.5; ">
+        <h1 style="text-align: center; color: wheat;">Stay positive :)
+        </h1>
+    </div>
+    <div class="container">
+        {% for img in images: %}
+        <div class="row">
+            <img src="{{img.link}}" alt="happy" style="width: 500px; margin: auto; padding: 30px;">
+        </div>
+        <div class="row">
+            <!-- <button type="submit"><img src="https://lh3.googleusercontent.com/proxy/Woq4XNYIFqgojF_drkB17pHjgGCOsM0ObYjuzIzx5hheol0y16cXP84A5iqS0x1-H3UZvI5WEGTpgLRLAKCYkgoZ4Eax8zw" alt="heart" id="heart" onclick="alert('we love you !!!')"></button> -->
+            <div class="slidecontainer">
+                <input type="range" min="1" max="100" value="50" id="slider">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+</body>
+
+</html>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>

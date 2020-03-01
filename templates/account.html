@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    {% if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title>site</title>
+    {% endif %}
+  <style type="text/css">
+ .bg-steel {
+  background-color: black;
+}
+
+.bg{
+  background-image: url("https://ak6.picdn.net/shutterstock/videos/9983156/thumb/1.jpg");
+  
+ }
+</style>
+    <br>
+    <br>
+    <br>
+	 <body class="bg">
+			{% with messages = get_flashed_messages() %}
+				 {% if messages %}
+						<ul>
+							{% for message in messages %}
+							<li>{{ message }}</li>
+							{% endfor %}
+						</ul>
+				 {% endif %}
+			{% endwith %}
+					
+        <div class="content-section">
+		      <div class="media">
+			        <img class="rounded-circle account-img" src="{{ image_file }}">
+			        <div class="media-body">
+			          <h2 class="account-heading">{{ current_user.name }}</h2>
+			          <p class="text-secondary">{{ current_user.email }}</p>
+			          
+		            </div>
+		      </div>
+                	<form method="POST" action="/account" enctype="multipart/form-data">
+						{{ form.hidden_tag() }}
+						<fieldset class="form-group">
+								<legend class="border-bottom mb-4">Account Info</legend>
+
+								<div class="form-group">
+										{{ form.name.label(class="form-control-label") }}
+										{% if form.name.errors %}
+												{{ form.name(class="form-control form-control-lg is-invalid") }}
+												<div class="invalid-feedback">
+														{% for error in form.name.errors %}
+																<span>{{ error }}</span>
+														{% endfor %}
+												</div>
+										{% else %}
+												{{ form.name(class="form-control form-control-lg") }}
+										{% endif %}
+								</div>
+
+								<div class="form-group">
+										{{ form.email.label(class="form-control-label") }}
+										{% if form.email.errors %}
+												{{ form.email(class="form-control form-control-lg is-invalid") }}
+												<div class="invalid-feedback">
+														{% for error in form.email.errors %}
+																<span>{{ error }}</span>
+														{% endfor %}
+												</div>
+										{% else %}
+												{{ form.email(class="form-control form-control-lg") }}
+										{% endif %}
+								</div>
+								<div class="form-group">
+									<!-- This code is for accepting uploaded images, not for displaying them -->
+										{{ form.picture.label() }}
+										{{ form.picture(class="form-control-file") }}
+										{% if form.picture.errors %}
+												{% for error in form.picture.errors %}
+														<span class="text-danger">{{ error }}</span></br>
+												{% endfor %}
+										{% endif %}
+								</div>
+						</fieldset>
+
+						<div class="form-group">
+								{{ form.submit(class="btn btn-outline-info") }}
+						</div>
+				</form>
+
+				</div>
+
+	 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+{% endblock content %}
