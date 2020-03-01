@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-
-<head></head>
-
-<body>
+{% extends "base.html" %} {% block content %}
     <script type="text/javascript" src="static/js/choose.js"></script>
-
+<div>
     <form action="{{ url_for('predict')}}" id="upload-file" method="post" enctype="multipart/form-data">
         <label for="imageUpload" class="upload-label">
-            Choose a file to upload
-            </label>
+            Choose a file to upload:
+        </label><br><br>
         <input type="file" name="file" id="imageUpload" accept=".png, .jpg, .jpeg">
+        <br><br>
         <button type="submit" class="btn btn-primary btn-lg " id="btn-predict">Predict!</button>
     </form>
 
@@ -17,13 +14,13 @@
         <div class="img-preview">
             <div id="imagePreview"></div>
         </div>
-        <div>
-        </div>
+    <div>
+</div>
 
         <div class="loader" style="display:none;"></div>
-    </div>
+</div>
+<div class="loader" style="display:none;"></div>
+</div>
 
 
-</body>
-
-</html>
+{% endblock %}

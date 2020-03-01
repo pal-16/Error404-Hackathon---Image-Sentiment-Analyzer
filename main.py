@@ -8,12 +8,18 @@ from sqlalchemy.orm import Session
 from flask_bcrypt import (Bcrypt,
                           check_password_hash,
                           generate_password_hash,)
-
+import tensorflow
 from forms import RegistrationForm,LoginForm
 from models import Org,ImageLink
 from flask_login import login_user, current_user, logout_user, login_required
-from sqlalchemy_utils import IntRangeType
 
+from EmoPy.src.fermodel import FERModel
+
+global graph
+graph = tensorflow.get_default_graph() 
+
+target_emotions = ['anger','fear','surprise']
+model = FERModel(target_emotions,verbose=True)
 
 import glob
 import re
@@ -24,11 +30,14 @@ import numpy as np
 # coding=utf-8
 #import sys
 
-# Flask utils
-# from flask import Flask, redirect, url_for, request, render_template
-# from werkzeug.utils import secure_filename
-# from gevent.pywsgi import WSGIServer
+from werkzeug.utils import secure_filename
+from gevent.pywsgi import WSGIServer
 
+# db2 = SQLAlchemy(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///count.db'
+
+# class Count(db2.Model):
+#     count:db2.Column(db2.Number,primary_key=True)
 # model = load_model("final_model.h5")
 
 def preprocess(image):
@@ -40,8 +49,6 @@ def preprocess(image):
 
 
 
-
-
 def create_session(config):
     engine = create_engine(config['DATABASE_URI'])
     Session = sessionmaker(bind=engine)
@@ -49,7 +56,6 @@ def create_session(config):
     session._model_changes = {}
     return session 
     
-
 
 @app.route('/add',methods=['GET','POST'])
 def add_image():
@@ -73,7 +79,7 @@ def flas():
 
 @app.route("/")
 def main():
-    return redirect("/reg")
+    return redirect("/index")
 
 @app.route("/index")
 def index():
@@ -102,17 +108,43 @@ def alert(flag):
     print(type(flag))
     return render_template('alert.html',flag=flag)
 
+@app.route('/predict2', methods=['GET', 'POST'])
+def predict2():
+    if request.method == 'POST':
+        f = request.files['file']
+        basepath = os.path.dirname(__file__)
+        file_path = os.path.join('uploads', secure_filename(f.filename))
+        print(file_path)
+        print(type(file_path))
+        f.save(file_path)
+        print("hello")
+        with graph.as_default():
+            result = model.predict(file_path)
+        print(result)
+        if result=='anger' or result=='fear':
+        # # result = model.predict_classes(preprocess(load_img(file_path)))
+            return redirect('/alert/0')
+        else:
+            return redirect('/alert/1')
+
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     if request.method == 'POST':
-        # f = request.files['file']
-        # basepath = os.path.dirname(__file__)
-        # file_path = os.path.join(
-        # basepath, 'uploads', secure_filename(f.filename))
-        # f.save(file_path)
-        # print("hello")
+        f = request.files['file']
+        basepath = os.path.dirname(__file__)
+        file_path = os.path.join('uploads', secure_filename(f.filename))
+        print(file_path)
+        print(type(file_path))
+        f.save(file_path)
+        print("hello")
+        with graph.as_default():
+            result = model.predict(file_path)
+        print(result)
+        if result=='anger' or result=='fear':
         # # result = model.predict_classes(preprocess(load_img(file_path)))
-        return redirect('/alert/0')
+            return redirect('/alert/0')
+        else:
+            return redirect('/alert/1')
         # Get the file from post request
        
         
@@ -145,18 +177,6 @@ def login():
             return redirect(url_for('/'))
     return render_template('login.html', title='Login', form=form)
 
-def save_picture(form_picture):
-    random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(form_picture.filename)
-    picture_fn = random_hex + f_ext
-    picture_path = os.path.join(app.root_path, 'static', 'profile_pics', picture_fn)
-    print('Picture to be saved: ', picture_path)
-    output_size = (125, 125)
-    i = Image.open(form_picture)
-    i.thumbnail(output_size)
-    i.save(picture_path)
-
-    return picture_fn
 
 
 @app.route("/logout")

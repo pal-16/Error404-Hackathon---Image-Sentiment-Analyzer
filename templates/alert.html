@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-
-<head>
-
-</head>
-
+{% extends "layout.html" %} {% block content %}
 
 <!-- First, include the Webcam.js JavaScript Library -->
 <script type="text/javascript" src="static/js/alert.js"></script>
@@ -18,5 +13,7 @@
 {% else %}
 <script>
     alert("you seem happy good");
+    window.location.replace('happy.html')
 </script>
 {% endif %}
+{% endblock content %}
